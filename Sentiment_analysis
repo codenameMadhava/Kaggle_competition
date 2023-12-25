@@ -1,0 +1,54 @@
+# This Python 3 environment comes with many helpful analytics libraries installed
+# It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python
+# For example, here's several helpful packages to load
+
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+
+# Input data files are available in the read-only "../input/" directory
+# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+
+# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
+# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
+train = pd.read_csv('/kaggle/input/emotion-classification-nlp/emotion-labels-train.csv')
+train
+test = pd.read_csv('/kaggle/input/emotion-classification-nlp/emotion-labels-test.csv')
+test = pd.read_csv('/kaggle/input/emotion-classification-nlp/emotion-labels-test.csv')
+val = pd.read_csv('/kaggle/input/emotion-classification-nlp/emotion-labels-val.csv')
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, classification_report
+X_train, y_train = train['text'], train['label']
+X_test, y_test = test['text'], test['label']
+X_val, y_val = val['text'], val['label']
+vectorizer = CountVectorizer()
+X_train_vec = vectorizer.fit_transform(X_train)
+X_val_vec = vectorizer.transform(X_val)
+X_test_vec = vectorizer.transform(X_test)
+classifier = MultinomialNB()
+classifier.fit(X_train_vec, y_train)
+predictions_val = classifier.predict(X_val_vec)
+accuracy_val = accuracy_score(y_val, predictions_val)
+report_val = classification_report(y_val, predictions_val)
+print(f"Validation Accuracy: {accuracy_val}")
+print("Validation Classification Report:\n", report_val)
+predictions_test = classifier.predict(X_test_vec)
+accuracy_test = accuracy_score(y_test, predictions_test)
+report_test = classification_report(y_test, predictions_test
+print(f"\nTest Accuracy: {accuracy_test}")
+print("Test Classification Report:\n", report_test)
+from sklearn.linear_model import LogisticRegression
+Lr_clf = LogisticRegression()
+Lr_clf.fit(X_train_vec, y_train)
+Lr_predictions_val = Lr_clf.predict(X_val_vec)
+Lr_accuracy_val = accuracy_score(y_val, predictions_val)
+Lr_report_val = classification_report(y_val, predictions_val)
+print(f"Validation Accuracy: {Lr_accuracy_val}")
+print("Validation Classification Report:\n", Lr_report_val)
+Lr_predictions_test = Lr_clf.predict(X_test_vec)
