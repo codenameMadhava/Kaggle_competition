@@ -1,2 +1,2 @@
-# Sentiment_Analysis_
-Project Title: Sentiment Analysis for Textual Emotion Classification
+# Kaggle Competitions
+This repository contains the Kaggle Competitions Notebooks i have participated
